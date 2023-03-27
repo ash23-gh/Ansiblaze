@@ -1,0 +1,15 @@
+- name: restart service
+  hosts: all
+  tasks:
+   - name: restart systemd-udevd.service
+     command: systemctl restart systemd-udevd.service
+     loop_control:
+      pause: 5
+
+   - name: checking status
+     shell: systemctl status systemd-udevd.service | grep -i active
+     register: status
+
+   - name: printing o/p
+     debug:
+      msg: "{{ status.stdout }}"
